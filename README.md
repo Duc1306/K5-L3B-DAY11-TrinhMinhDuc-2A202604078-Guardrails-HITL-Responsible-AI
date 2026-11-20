@@ -1,5 +1,16 @@
 # Day 11 — Controlled Agent Security (2026)
 
+> 🧑‍🎓 **Học viên:** Trinh Minh Duc · **MSSV:** 2A202604078 · **Lớp:** K5-L3B
+>
+> **Cách chạy nhanh** (từ gốc repo, đã kích hoạt `.venv` và điền `.env`):
+>
+> ```bash
+> python src/main.py --part 3   # Blue → outputs/results.json
+> python src/main.py --part 4   # Red / Red Advance → outputs/attack_results.json
+> pytest tests/smoke -q && pytest tests/public -q
+> python scripts/grade.py --submission-dir . --out outputs/grade_report.json
+> ```
+
 > 👤 **Hình thức:** bài tập **cá nhân** (1 người / 1 MSSV).  
 > 🎯 **Mục tiêu:** đóng vai **Blue Team** để học cách xây Guardrails phòng thủ, rồi đóng vai **Red Team** để tấn công agent **Red** hoặc **Red Advance**.  
 > ✅ Làm theo **Checkpoint 1 → 5** trong [`CHECKPOINTS.md`](CHECKPOINTS.md) · nộp theo [`SUBMISSION.md`](SUBMISSION.md).
