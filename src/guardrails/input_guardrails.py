@@ -239,6 +239,9 @@ _ALLOWED_RX = [_topic_regex(t) for t in [*ALLOWED_TOPICS, *EXTRA_ALLOWED_TOPICS]
 #   - Return types.Content to block, or None to pass through
 # ============================================================
 
+MAX_INPUT_CHARS = 2000
+
+
 class InputGuardrailPlugin(base_plugin.BasePlugin):
     """Plugin that blocks bad input before it reaches the LLM."""
 
@@ -278,6 +281,15 @@ class InputGuardrailPlugin(base_plugin.BasePlugin):
         """
         self.total_count += 1
         text = self._extract_text(user_message)
+
+        # 0. Input quá dài → chặn trước (cost attack / nhồi prompt để đẩy system prompt ra xa)
+        if len(text) > MAX_INPUT_CHARS:
+            self.blocked_count += 1
+            self.last_block_reason = f"too_long:{len(text)}"
+            return self._block_response(
+                f"[BLOCKED by input_guardrail] Tin nhắn quá dài (> {MAX_INPUT_CHARS} ký tự). "
+                "Vui lòng rút gọn câu hỏi."
+            )
 
         # 1. Prompt injection / jailbreak (kể cả nhúng trong email/RAG)
         if detect_injection(text) == "BLOCK":
